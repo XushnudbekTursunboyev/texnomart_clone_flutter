@@ -34,7 +34,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               if(state.status == Status.Success) {
                 return Scaffold(
                   appBar: AppBar(
-                    title: Container(
+                    title:
+                    Container(
                         height: 56,
                         decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: Color(0xFFF7F7F9)),
                         margin: EdgeInsets.only(top: 16, bottom: 8),
@@ -51,7 +52,6 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                           ),
                         )
                     ),
-
                   ),
                   body: Column(
                     children: [

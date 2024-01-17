@@ -16,8 +16,9 @@ import 'package:texnomart_clone_flutter/ui/profile_screen.dart';
 
 class DashboardPage extends StatefulWidget {
   final int currentPage;
+  final ProductHolder? productHolder;
 
-  const DashboardPage({super.key, required this.currentPage});
+  const DashboardPage({super.key, required this.currentPage, this.productHolder});
 
   @override
   State<DashboardPage> createState() => _DashboardPageState();
@@ -26,6 +27,29 @@ class DashboardPage extends StatefulWidget {
 class _DashboardPageState extends State<DashboardPage> {
   final PageStorageBucket bucket = PageStorageBucket();
   int currentTab = 0;
+  ProductHolder productHolderData = ProductHolder(
+      0,
+      "",
+      "",
+      "",
+      [],
+      "",
+      0,
+      '',
+      [],
+      0,
+      '',
+      "",
+      '',
+      0,
+      '',
+      "",
+      0,
+      "",
+      0,
+      null,
+      false,
+      0);
   Widget currentScreen = const MainScreen();
   final List<Widget> screens = [
     const MainScreen(),
@@ -55,15 +79,16 @@ class _DashboardPageState extends State<DashboardPage> {
         0,
         null,
         false,
-        0)
-    )
+        0))
   ];
 
   @override
   void initState() {
     currentTab = widget.currentPage;
+    productHolderData = widget.productHolder ?? productHolderData;
     currentTab == 2 ? currentScreen = const CardScreen() : const MainScreen();
     currentTab == 1 ? currentScreen = const CategoriesScreen() : const MainScreen();
+    currentTab == 5 ? currentScreen = DetailScreen(item: productHolderData) : const MainScreen();
     super.initState();
   }
 

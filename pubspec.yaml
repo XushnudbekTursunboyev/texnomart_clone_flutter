@@ -52,6 +52,8 @@ dependencies:
   path_provider: ^2.1.1
   hive_generator: ^2.0.1
   provider: ^6.1.1
+  yandex_mapkit: ^3.4.0
+  geolocator: ^10.1.0
 
 dev_dependencies:
   flutter_test:
@@ -86,6 +88,7 @@ flutter:
     - assets/images/cart.png
     - assets/images/home.png
     - assets/images/profil.png
+    - assets/images/maps_icon.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

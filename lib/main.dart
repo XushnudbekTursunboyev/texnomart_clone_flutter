@@ -9,8 +9,11 @@ import 'package:texnomart_clone_flutter/ui/main_screen.dart';
 import 'package:texnomart_clone_flutter/ui/orders_screen.dart';
 import 'package:texnomart_clone_flutter/ui/products_screen.dart';
 import 'package:texnomart_clone_flutter/ui/profile_screen.dart';
+import 'package:texnomart_clone_flutter/ui/stores_screen.dart';
+import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 void main() {
+  AndroidYandexMap.useAndroidViewSurface = false;
   WidgetsFlutterBinding.ensureInitialized();
   HiveHelper.init();
   setup();
@@ -39,7 +42,8 @@ class MyApp extends StatelessWidget {
         'orders': (context) => const OrdersScreen(),
         'profile': (context) => const ProfileScreen(),
         'card': (context) => const CardScreen(),
-        'products': (context) => const ProductsScreen("huawei-smartfony", "Smartfonlar")
+        'products': (context) => const ProductsScreen("huawei-smartfony", "Smartfonlar"),
+        'stores' : (context) => const StoresScreen()
       },
     );
   }

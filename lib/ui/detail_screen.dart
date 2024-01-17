@@ -238,7 +238,7 @@ class _DetailScreenState extends State<DetailScreen> {
                             //context.read<DashboardProvider>().increment();
 
                             if(isBasket) {
-                              Navigator.push(
+                              Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
@@ -251,7 +251,7 @@ class _DetailScreenState extends State<DetailScreen> {
                               });
                             }
 
-                            context.read<DashboardProvider>().increment();
+                            context.read<DashboardProvider>().getBasketCount();
 
                             // await HiveHelper.addProductToBasket(widget.item);
                             // print(HiveHelper.getAllKeysProductsFromBasket().length);

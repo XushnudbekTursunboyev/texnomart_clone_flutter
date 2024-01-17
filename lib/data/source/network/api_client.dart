@@ -6,6 +6,7 @@ import 'package:texnomart_clone_flutter/data/model/category/all_categories_model
 import 'package:texnomart_clone_flutter/data/model/producs_popular_category/products_popular_category.dart';
 import 'package:texnomart_clone_flutter/data/model/slider/sliders_model.dart';
 import 'package:texnomart_clone_flutter/data/model/special_category/special_categories_model.dart';
+import 'package:texnomart_clone_flutter/data/model/stores/stores_model.dart';
 import 'package:texnomart_clone_flutter/data/model/top_category/top_category_model.dart';
 import 'package:texnomart_clone_flutter/data/model/top_products/top_products_model.dart';
 
@@ -38,4 +39,6 @@ abstract class ApiClient {
   @GET('https://gateway.texnomart.uz/api/web/v1/product/detail')
   Future<ProductDetailModel> getProductDetailById(@Query('id') int id);
 
+  @GET('https://gateway.texnomart.uz/api/web/v1/region/stores-list')
+  Future<StoresModel> getStoresModel();
 }

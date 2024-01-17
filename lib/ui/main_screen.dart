@@ -380,7 +380,7 @@ Widget topProducts(ProductHolder productHolder, BuildContext context, void Funct
           context,
           MaterialPageRoute(
               builder: (context) =>
-                DetailScreen(item: productHolder)
+                DashboardPage(productHolder: productHolder, currentPage: 5,)
           )
       );
     },

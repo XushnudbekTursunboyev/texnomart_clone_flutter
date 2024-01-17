@@ -6,6 +6,7 @@ import 'package:texnomart_clone_flutter/data/model/product_detail/product_detail
 import 'package:texnomart_clone_flutter/data/model/products/products_model.dart';
 import 'package:texnomart_clone_flutter/data/model/slider/sliders_model.dart';
 import 'package:texnomart_clone_flutter/data/model/special_category/special_categories_model.dart';
+import 'package:texnomart_clone_flutter/data/model/stores/stores_model.dart';
 import 'package:texnomart_clone_flutter/data/model/top_category/top_category_model.dart';
 import 'package:texnomart_clone_flutter/data/model/top_products/top_products_model.dart';
 import 'package:texnomart_clone_flutter/data/repository/app_repository.dart';
@@ -54,6 +55,12 @@ class AppRepositoryImpl extends AppRepository{
   @override
   Future<ProductDetailModel> getProductDetailByID(int id) async{
     final response = await api.getProductDetailById(id);
+    return response;
+  }
+
+  @override
+  Future<StoresModel> getStores() async{
+    final response = await api.getStoresModel();
     return response;
   }
 
