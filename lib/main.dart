@@ -4,6 +4,7 @@ import 'package:texnomart_clone_flutter/di/di.dart';
 import 'package:texnomart_clone_flutter/ui/SplashScreen.dart';
 import 'package:texnomart_clone_flutter/ui/card_screen.dart';
 import 'package:texnomart_clone_flutter/ui/categories_screen.dart';
+import 'package:texnomart_clone_flutter/ui/characters_screen.dart';
 import 'package:texnomart_clone_flutter/ui/home_screen.dart';
 import 'package:texnomart_clone_flutter/ui/main_screen.dart';
 import 'package:texnomart_clone_flutter/ui/orders_screen.dart';
@@ -43,7 +44,8 @@ class MyApp extends StatelessWidget {
         'profile': (context) => const ProfileScreen(),
         'card': (context) => const CardScreen(),
         'products': (context) => const ProductsScreen("huawei-smartfony", "Smartfonlar"),
-        'stores' : (context) => const StoresScreen()
+        'stores' : (context) => const StoresScreen(),
+        'characters' : (context) => const CharactersScreen([])
       },
     );
   }

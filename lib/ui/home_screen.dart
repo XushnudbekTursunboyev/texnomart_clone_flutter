@@ -140,7 +140,7 @@ class _DashboardPageState extends State<DashboardPage> {
                       'assets/images/home.png',
                       height: 24,
                       width: 24,
-                      color: currentTab == 0
+                      color: currentTab == 0 || currentTab == 5
                           ? const Color(0xFFfbc100)
                           : const Color(0xFF7D7D7D),
                     ),
@@ -148,7 +148,7 @@ class _DashboardPageState extends State<DashboardPage> {
                     Text(
                       'Bosh sahifa',
                       style: GoogleFonts.ubuntu(
-                        color: currentTab == 0
+                        color: currentTab == 0 || currentTab == 5
                             ? const Color(0xFFfbc100)
                             : const Color(0xFF7D7D7D),
                         fontSize: 9,

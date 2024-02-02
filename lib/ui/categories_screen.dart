@@ -109,11 +109,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       ),
 
                     ),
-                    body:  Column(
-                      children: [
-                        Center(child: CircularProgressIndicator()),
-                      ],
-                    ));
+                    body:  Center(child: CircularProgressIndicator()));
               }else { return Center(
                 child: Container(
                   child: Scaffold(

@@ -54,6 +54,10 @@ dependencies:
   provider: ^6.1.1
   yandex_mapkit: ^3.4.0
   geolocator: ^10.1.0
+  firebase_core: ^2.24.2
+  url_launcher: ^6.2.3
+  maps_launcher: ^2.2.0
+  grouped_list: ^5.1.2
 
 dev_dependencies:
   flutter_test:
@@ -89,6 +93,7 @@ flutter:
     - assets/images/home.png
     - assets/images/profil.png
     - assets/images/maps_icon.png
+    - assets/images/ic_location.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

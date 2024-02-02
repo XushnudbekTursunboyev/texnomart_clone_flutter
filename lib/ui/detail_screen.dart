@@ -4,11 +4,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:texnomart_clone_flutter/presenter/product_detail/detail_bloc.dart';
 import 'package:texnomart_clone_flutter/presenter/provider/dashboard_provider.dart';
+import 'package:texnomart_clone_flutter/ui/available_stores_screen.dart';
+import 'package:texnomart_clone_flutter/ui/characters_screen.dart';
+import 'package:texnomart_clone_flutter/ui/description_screen.dart';
 import 'package:texnomart_clone_flutter/ui/home_screen.dart';
 import 'package:texnomart_clone_flutter/ui/widgets/slider.dart';
 
 import '../data/model/hive_model/product_holder.dart';
 import '../data/source/local/my_hive_helper.dart';
+import '../presenter/main/main_bloc.dart';
 
 class DetailScreen extends StatefulWidget {
   final ProductHolder item;
@@ -50,8 +54,6 @@ class _DetailScreenState extends State<DetailScreen> {
 
     }
 
-    //widget.item.isSaved = isSaved;
-
     return Scaffold(
         appBar: AppBar(
           toolbarHeight: 70,
@@ -66,7 +68,7 @@ class _DetailScreenState extends State<DetailScreen> {
           title: Row(
             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Spacer(),
+              const Spacer(),
               IconButton(onPressed: () async{
                 // context.read<DashboardProvider>().increment();
                 await HiveHelper.addProductToBasket(widget.item);
@@ -75,8 +77,8 @@ class _DetailScreenState extends State<DetailScreen> {
                     MaterialPageRoute(
                         builder: (context) =>
                         const DashboardPage(currentPage: 2)));
-              }, icon: Icon(Icons.add_shopping_cart)),
-              IconButton(onPressed: (){}, icon: Icon(Icons.percent_sharp)),
+              }, icon: const Icon(Icons.add_shopping_cart)),
+              IconButton(onPressed: (){}, icon: const Icon(Icons.percent_sharp)),
               IconButton(onPressed: (){
                 setState(() {
                   widget.item.isSaved =
@@ -91,192 +93,267 @@ class _DetailScreenState extends State<DetailScreen> {
           ),
           scrolledUnderElevation: 1.0,
         ),
-        body: BlocProvider.value(
-  value: bloc,
-  child: BlocConsumer<DetailBloc, DetailState>(
-  listener: (context, state) {
-    detailImageList = state.productDetailModel?.data?.data?.largeImages ?? [];
-  },
-  builder: (context, state) {
-    return CustomScrollView(
-      slivers: [
-        SliverToBoxAdapter(
-          child: Padding(
-              padding: const EdgeInsets.only(left: 16.0, top: 14, right: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  DetailImageSlider(imgList: detailImageList),
-                  SizedBox(height:16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text("Mavjud",
-                          style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.w500,
-                              color: Colors.greenAccent,
-                              fontSize: 14)),
-                      Text("Mld. ${state.productDetailModel?.data?.data?.id}",
-                          style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.w400,
-                              color: Colors.grey,
-                              fontSize: 12)),
-                    ],
-                  ),
-                  SizedBox(height:10),
-                  Text(
-                      widget.item.name.toString(),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                      textAlign: TextAlign.start,
-                      style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w500,
-                          fontSize:16
-                      )),
-                  SizedBox(height:10),
-                  Text(
-                      "${widget.item.salePrice} so`m",
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      textAlign: TextAlign.start,
-                      style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w600,
-                          fontSize:30
-                      )),
-                  SizedBox(height:16),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                        color: Color(0x15000000),
-                        borderRadius: BorderRadius.circular(10)
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Muddatli to'lov:",
-                              style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.grey,
-                                  fontSize: 14)),
-                          Text(
-                              widget.item.axiomMonthlyPrice.toString(),
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.start,
-                              style: GoogleFonts.poppins(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize:15
-                              )),
-                        ],
+        body:
+        BlocProvider.value(
+        value: bloc,
+          child: BlocConsumer<DetailBloc, DetailState>(
+            listener: (context, state) {
+              detailImageList = state.productDetailModel?.data.data.largeImages ?? [];
+              },
+            builder: (context, state) {
+              if(state.status == Status.Loading) {
+                return Center(child: CircularProgressIndicator(),);
+              }else{
+                return Container(
+                  height: double.infinity,
+                  child: Column(
+          children: [
+            Flexible(
+              flex: 10,
+              child: CustomScrollView(
+                  slivers: [
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 16.0, top: 14, right: 16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            DetailImageSlider(imgList: detailImageList),
+                            const SizedBox(height:16),
+
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("Mavjud",
+                                    style: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.greenAccent,
+                                        fontSize: 14)),
+                                Text("Mld. ${state.productDetailModel?.data.data.id}",
+                                    style: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.grey,
+                                        fontSize: 12)),
+                              ],
+                            ),
+                            const SizedBox(height:10),
+                            Text(
+                                widget.item.name.toString(),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                                textAlign: TextAlign.start,
+                                style: GoogleFonts.poppins(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize:16
+                                )),
+                            const SizedBox(height:10),
+                            Text(
+                                "${widget.item.salePrice} so`m",
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                textAlign: TextAlign.start,
+                                style: GoogleFonts.poppins(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize:30
+                                )),
+                            const SizedBox(height:16),
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              decoration: BoxDecoration(
+                                  color: const Color(0x15000000),
+                                  borderRadius: BorderRadius.circular(10)
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Muddatli to'lov:",
+                                        style: GoogleFonts.poppins(
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.grey,
+                                            fontSize: 14)),
+                                    Text(
+                                        widget.item.axiomMonthlyPrice.toString(),
+                                        overflow: TextOverflow.ellipsis,
+                                        textAlign: TextAlign.start,
+                                        style: GoogleFonts.poppins(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize:15
+                                        )),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height:20),
+                            Row(
+                              children: [
+                                Text("Sharhlar: ${state.productDetailModel?.data.data.reviewsCount}",
+                                    style: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.black,
+                                        fontSize: 14)),
+                                const Spacer(),
+                                //Image.asset("assets/images/stars.png",fit: BoxFit.cover, width: 100),
+                                const Icon(Icons.arrow_forward_ios,color: Colors.black38)
+                              ],
+                            ),
+                            const SizedBox(height:10),
+                            const Divider(color: Colors.black12),
+                            const SizedBox(height:10),
+                            InkWell(
+                              onTap: (){
+                                Navigator.push(context, PageRouteBuilder(pageBuilder:  (context, animation, secondaryAnimation) => AvailableStoreScreen(state.productDetailModel?.data?.data?.availableStores ?? [])));
+                              },
+                              child: Row(
+                                children: [
+                                  Text("Do'konda mavjud",
+                                      style: GoogleFonts.poppins(
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black,
+                                          fontSize: 14)),
+                                  const Spacer(),
+                                  const Icon(Icons.arrow_forward_ios,color: Colors.black38)
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height:10),
+                            Visibility(
+                                visible: state.productDetailModel?.data?.data?.description != null && state.productDetailModel?.data?.data?.description.toString() != "",
+                                child: Column(
+                                  children: [
+                                    const Divider(color: Colors.black12),
+                                    const SizedBox(height:10),
+                                    InkWell(
+                                      onTap: (){
+                                        Navigator.push(context, PageRouteBuilder(pageBuilder:  (context, animation, secondaryAnimation) => DescriptionScreen(state.productDetailModel?.data?.data?.description ?? "")));
+                                      },
+                                      child: Row(
+                                        children: [
+                                          Text("Tarif",
+                                              style: GoogleFonts.poppins(
+                                                  fontWeight: FontWeight.w500,
+                                                  color: Colors.black,
+                                                  fontSize: 14)),
+                                          const Spacer(),
+                                          const Icon(Icons.arrow_forward_ios,color: Colors.black38)
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(height:10),
+                                  ],
+                                )),
+                            const Divider(color: Colors.black12),
+                            const SizedBox(height:10),
+                            InkWell(
+                              onTap: (){
+                                Navigator.push(context, PageRouteBuilder(pageBuilder:  (context, animation, secondaryAnimation) => CharactersScreen(state.productDetailModel?.data?.data?.characters ?? [])));
+                                },
+                              child: Row(
+                                children: [
+                                  Text("Texnik xususiyatlari",
+                                      style: GoogleFonts.poppins(
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black,
+                                          fontSize: 14)),
+                                  const Spacer(),
+                                  const Icon(Icons.arrow_forward_ios,color: Colors.black38)
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(height:20),
-                  Row(
-                    children: [
-                      Text("Sharhlar: ${state.productDetailModel?.data?.data?.reviewsCount}",
-                          style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black,
-                              fontSize: 14)),
-                      Spacer(),
-                      //Image.asset("assets/images/stars.png",fit: BoxFit.cover, width: 100),
-                      Icon(Icons.arrow_forward_ios,color: Colors.black38)
-                    ],
-                  ),
-                  SizedBox(height:10),
-                  Divider(color: Colors.black12),
-                  SizedBox(height:10),
-                  Row(
-                    children: [
-                      Text("Do'konda mavjud",
-                          style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black,
-                              fontSize: 14)),
-                      Spacer(),
-                      Icon(Icons.arrow_forward_ios,color: Colors.black38)
-                    ],
-                  ),
-                  SizedBox(height:10),
-                
-                  Divider(color: Colors.black12),
-                  SizedBox(height:10),
-                  Row(
-                    children: [
-                      Text("Texnik xususiyatlari",
-                          style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.w500,
-                              color: Colors.black,
-                              fontSize: 14)),
-                      Spacer(),
-                      Icon(Icons.arrow_forward_ios,color: Colors.black38)
-                    ],
-                  ),
-                  SizedBox(height:10),
 
+                    SliverGrid.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 1,
+                            mainAxisExtent: 46
+                        ),
+                        itemCount: state.productDetailModel?.data.data.mainCharacters?.length ?? 3,
+                        itemBuilder: (context, index){
+                          int n = state.productDetailModel?.data.data.mainCharacters?[index].value?.length ?? 10;
 
-          
-                  Divider(
-                    color: Colors.black12,
-                  ),
-                
-                  SizedBox(height:10),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    decoration: ShapeDecoration(
-                      color: !isBasket ? const Color(0xFFffc300) :  Colors.grey,
+                          return  Container(
+                            height: 56,
+                            padding: const EdgeInsets.only(top: 8, right: 16, left: 16, bottom: 8),
+                            child:
+                            Row(
+                              children: [
+                                Text('${state.productDetailModel?.data.data.mainCharacters?[index].name}', overflow: TextOverflow.fade,),
+                                SizedBox(width: 2,),
+                                Expanded(child: Text('...................................................................................................', overflow: TextOverflow.ellipsis, style: TextStyle(color: Colors.grey), )),
+                                SizedBox(width: 2,),
+                                Text(n < 30 ? '${state.productDetailModel?.data.data.mainCharacters?[index].value}' : "${state.productDetailModel?.data.data.mainCharacters?[index].value.toString().substring(0, 20)}" , overflow: TextOverflow.fade)
+                              ],
+                            ),
+                          );
+                        }
+                    ),
+                    //
+                    // SliverToBoxAdapter(child: Column(
+                    //   children: [
+                    //     Container(height: 8, color: Color(0xFFF7F7F7),),
+                    //     Text('${state.productDetailModel?.data.data.seo?.title}'),
+                    //     const SizedBox(height:10),
+                    //   ],
+                    // ),),
+                  ]
+              ),
+            ),
+
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 16, right: 16),
+                child: Container(
+                  alignment: Alignment.bottomCenter,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: ShapeDecoration(
+                      color: !isBasket ? const Color(0xFFffc300) :
+                      Colors.grey,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       )
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 15),
-                      child: InkWell(
-                          onTap: ()  {
-                            //context.read<DashboardProvider>().increment();
-
-                            if(isBasket) {
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                      const DashboardPage(currentPage: 2)));
-                            }else{
-                              setState(() {
-                                isBasket = HiveHelper.getAllKeysProductsFromBasket().contains(widget.item.id);
-                                //isBasket == true ? HiveHelper.deleteProductFromBasket(widget.item) :
-                                HiveHelper.addProductToBasket(widget.item);
-                              });
-                            }
-
-                            context.read<DashboardProvider>().getBasketCount();
-
-                            // await HiveHelper.addProductToBasket(widget.item);
-                            // print(HiveHelper.getAllKeysProductsFromBasket().length);
-
-                          },
-                        child: Text( !isBasket ?
-                          'Savatchaga' : 'Savatchada',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.roboto(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w400,
-                            height: 0,
-                          ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 15),
+                    child: InkWell(
+                      onTap: ()  {
+                        if(isBasket) {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                  const DashboardPage(currentPage: 2)));
+                        }else{
+                          setState(() {
+                            isBasket = HiveHelper.getAllKeysProductsFromBasket().contains(widget.item.id);
+                            HiveHelper.addProductToBasket(widget.item);
+                          });
+                        }
+                        context.read<DashboardProvider>().getBasketCount();
+                      },
+                      child: Text( !isBasket ?
+                      'Savatchaga' : 'Savatchada',
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.roboto(
+                          color: Colors.black,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w400,
+                          height: 0,
                         ),
                       ),
                     ),
                   ),
-                ],
+                ),
               ),
             ),
-        ),
 
-    ]
-    );
+          ],
+        ),
+      );
+    }
   },
 ),
 )

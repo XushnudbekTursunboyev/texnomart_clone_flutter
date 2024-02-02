@@ -88,7 +88,7 @@ Widget basketItem(
                                 splashColor:
                                     const Color(0xFFfbc100).withAlpha(60),
                                 onTap: clickMinus,
-                                child: Icon(Icons.arrow_back_ios)),
+                                child: Icon(Icons.remove)),
                             Text(product.count?.toString() ?? '0',
                                 overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.start,
@@ -101,7 +101,7 @@ Widget basketItem(
                                 splashColor:
                                     const Color(0xFFfbc100).withAlpha(60),
                                 onTap: clickPlus,
-                                child: Icon(Icons.arrow_forward_ios_rounded)),
+                                child: Icon(Icons.add)),
                           ],
                         ),
                       ),
